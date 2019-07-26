@@ -28,8 +28,6 @@ parser.add_argument("-c", "--comments", \
 args = parser.parse_args()
 
 ##############################################
-# Starts alissa connector, bcm.sh.
-#def bcm():
 
 # Creating json file for input to alissa connector. 
 def jsonfile():
@@ -45,6 +43,7 @@ def jsonfile():
 					}, \
 					indent=4))
 		file.close()
+
 	else:
 		file = open("vcf.json","w")
 		file.write(json.dumps({'username': 'bcm', \
@@ -55,6 +54,7 @@ def jsonfile():
 					'gender': args.gender}\
 					}, \
 					indent=4))
+		file.close()
 
 # Submit using json file, customize url after
 # input to json file.
@@ -73,12 +73,15 @@ def submit(url=""):
 		pass
 	process.stdout.close()
 
-# Depending on input change url.
-# This will probably change when not dev?
+
 def main():
+	# Make json,
 	jsonfile()
 
+	# Depending on input change url.
+	# This will probably change when not dev?
 	if args.vcfpath:
+		# Starts alissa connector, bcm.sh.
 		cmd = ('/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/bcm.sh')
 		p = subprocess.Popen(cmd, \
                 	                stdout=subprocess.PIPE, \
@@ -86,25 +89,28 @@ def main():
 					cwd="/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/")
 		
 		time.sleep(15)
+
 		submit("https://127.0.0.1:8082/bcm/test/vcfFileUpload")
 
 		p.stdout.close()
 		p.kill()
+
 	else:
+		# Starts alissa connector, bcm.sh.
 		cmd = ('/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/bcm.sh')
 		p = subprocess.Popen(cmd, \
                 	                stdout=subprocess.PIPE, \
 					shell=True, \
 					cwd="/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/")
+
 		time.sleep(15)
+
 		submit("https://127.0.0.1:8082/bcm/test/patientregistration")
 
 		p.stdout.close()
 		p.kill()
 
-	#p.stdout.close()
 	print(p.pid)
-#	p.kill()
 	
 
 if __name__ == "__main__":
