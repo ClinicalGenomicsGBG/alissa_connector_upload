@@ -6,6 +6,7 @@
 import json
 import argparse
 import subprocess
+import time
 
 ##############################################
 
@@ -27,6 +28,8 @@ parser.add_argument("-c", "--comments", \
 args = parser.parse_args()
 
 ##############################################
+# Starts alissa connector, bcm.sh.
+#def bcm():
 
 # Creating json file for input to alissa connector. 
 def jsonfile():
@@ -73,13 +76,36 @@ def submit(url=""):
 # Depending on input change url.
 # This will probably change when not dev?
 def main():
+	jsonfile()
+
 	if args.vcfpath:
-		jsonfile()
+		cmd = ('/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/bcm.sh')
+		p = subprocess.Popen(cmd, \
+                	                stdout=subprocess.PIPE, \
+					shell=True, \
+					cwd="/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/")
+		
+		time.sleep(15)
 		submit("https://127.0.0.1:8082/bcm/test/vcfFileUpload")
+
+		p.stdout.close()
+		p.kill()
 	else:
-		jsonfile()
+		cmd = ('/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/bcm.sh')
+		p = subprocess.Popen(cmd, \
+                	                stdout=subprocess.PIPE, \
+					shell=True, \
+					cwd="/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/")
+		time.sleep(15)
 		submit("https://127.0.0.1:8082/bcm/test/patientregistration")
 
+		p.stdout.close()
+		p.kill()
+
+	#p.stdout.close()
+	print(p.pid)
+#	p.kill()
+	
 
 if __name__ == "__main__":
 	main()
