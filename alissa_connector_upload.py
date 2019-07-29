@@ -107,6 +107,14 @@ def main():
 
 		submit("https://127.0.0.1:8082/bcm/test/patientregistration")
 
+		import psutil
+
+		parent = psutil.Process(p.pid)
+		for child in parent.children(recursive=True):
+			print(child)
+			child.terminate()
+
+		parent.terminate()
 		p.stdout.close()
 		p.kill()
 
