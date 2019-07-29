@@ -85,7 +85,7 @@ def main():
 		# Starts alissa connector, bcm.sh.
 		cmd = ('/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/bcm.sh')
 		p = subprocess.Popen(cmd, \
-                	                stdout=subprocess.PIPE, \
+                	stdout=subprocess.PIPE, \
 					shell=True, \
 					cwd="/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/")
 		
@@ -106,7 +106,7 @@ def main():
 		# Starts alissa connector, bcm.sh.
 		cmd = ('/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/bcm.sh')
 		p = subprocess.Popen(cmd, \
-                	                stdout=subprocess.PIPE, \
+                	stdout=subprocess.PIPE, \
 					shell=True, \
 					cwd="/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/")
 
