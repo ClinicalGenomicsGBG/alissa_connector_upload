@@ -7,6 +7,7 @@ import json
 import argparse
 import subprocess
 import time
+import psutil
 
 ##############################################
 
@@ -16,7 +17,7 @@ parser.add_argument("-s","--samplename", \
                         help="Sample name (accessionid)")
 parser.add_argument("-v", "--vcfpath", \
 #                        required=True, \
-                        help="Path to vcf file")
+                        help="Full path to vcf file")
 parser.add_argument("-p", "--patientfolder", \
 #                        required=True, \
                         help="Name of patient folder")
@@ -92,6 +93,12 @@ def main():
 
 		submit("https://127.0.0.1:8082/bcm/test/vcfFileUpload")
 
+		# Killing childprocess and grandchild process.
+		parent = psutil.Process(p.pid)
+		for child in parent.children(recursive=True):
+			child.terminate()
+
+		parent.terminate()
 		p.stdout.close()
 		p.kill()
 
@@ -107,18 +114,15 @@ def main():
 
 		submit("https://127.0.0.1:8082/bcm/test/patientregistration")
 
-		import psutil
-
+		# Killing childprocess and grandchild process.
 		parent = psutil.Process(p.pid)
 		for child in parent.children(recursive=True):
-			print(child)
 			child.terminate()
 
 		parent.terminate()
 		p.stdout.close()
 		p.kill()
 
-	print(p.pid)
 	
 
 if __name__ == "__main__":
