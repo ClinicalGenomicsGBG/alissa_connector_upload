@@ -1,5 +1,7 @@
 # alissa_connector_upload
 
+___
+
 Uploads vcf files and/or patientregistration
 using alissa connector.
 
@@ -10,9 +12,11 @@ think this will change when not dev(?)
 
 ## Utility    
 
-`merge_vcf.py` is a script that merges two vcf files.
-Output is a gzipped vcf file.
-It uses bcftools `view`, `index` and `merge`.   
+`merge_vcf.py` is a script that merges two vcf files.   
+
+Output is a gzipped vcf file.   
+
+It uses [bcftools](https://samtools.github.io/bcftools/bcftools.html) `view`, `index` and `merge`.      
 
 **Usage**:  
 
