@@ -83,11 +83,11 @@ def main():
 	# This will probably change when not dev?
 	if args.vcfpath:
 		# Starts alissa connector, bcm.sh.
-		cmd = ('/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/bcm.sh')
+		cmd = ('/apps/bio/software/bench_connector/Gothenburg-1.0.1-SNAPSHOT-package/bcm.sh')
 		p = subprocess.Popen(cmd, \
                 	stdout=subprocess.PIPE, \
 					shell=True, \
-					cwd="/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/")
+					cwd="/apps/bio/software/bench_connector/Gothenburg-1.0.1-SNAPSHOT-package/")
 		
 		time.sleep(15)
 
@@ -104,11 +104,11 @@ def main():
 
 	else:
 		# Starts alissa connector, bcm.sh.
-		cmd = ('/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/bcm.sh')
+		cmd = ('/apps/bio/software/bench_connector/Gothenburg-1.0.1-SNAPSHOT-package/bcm.sh')
 		p = subprocess.Popen(cmd, \
                 	stdout=subprocess.PIPE, \
 					shell=True, \
-					cwd="/apps/bio/software/bench_connector/Gothenburg-Connector-1.0.0/")
+					cwd="/apps/bio/software/bench_connector/Gothenburg-1.0.1-SNAPSHOT-package/")
 
 		time.sleep(15)
 
