@@ -22,8 +22,8 @@ args = parser.parse_args()
 
 vcf1 = args.vcf1
 vcf2 = args.vcf2
-vcf_bg1 = os.path.basename(vcf1)+".bgz"
-vcf_bg2 = os.path.basename(vcf2)+".bgz"
+vcf_bg1 = os.path.basename(vcf1) + ".bgz"
+vcf_bg2 = os.path.basename(vcf2) + ".bgz"
 merged_vcf = 'merged_' + os.path.basename(vcf1) + '_' + os.path.basename(vcf2) + '.gz'
 
 ###########################################
