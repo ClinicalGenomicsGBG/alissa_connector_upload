@@ -3,6 +3,7 @@
 # Uploads vcf files and/or patientregistration
 # using alissa connector.
 
+import sys
 import json
 import argparse
 import subprocess
@@ -24,6 +25,12 @@ parser.add_argument("-p", "--patientfolder", \
 parser.add_argument("-g", "--gender", \
 #                        required=True, \
                         help="Gender, f/m")
+parser.add_argument("-fn", "--filename", \
+#                        required=True, \
+                        help="alissa file name, name of vcf file")
+parser.add_argument("-sa", "--sample", \
+#                        required=True, \
+                        help="alissa file name, name of vcf file")
 parser.add_argument("-c", "--comments", \
                         help="comments")
 args = parser.parse_args()
@@ -35,12 +42,11 @@ def jsonfile():
 	if args.comments:
 		file = open("vcf.json","w")
 		file.write(json.dumps({'username': 'bcm', \
-					'patientFolder': args.patientfolder, \
-					'filePath': args.vcfpath, \
+					'patient_folder': args.patientfolder, \
 					'patient': {\
 					'accession': args.samplename, \
-					'gender': args.gender, \
-					'comments': args.comments}\
+					'sex': args.gender, \
+					},#'comments': args.comments}\
 					}, \
 					indent=4))
 		file.close()
@@ -48,12 +54,15 @@ def jsonfile():
 	else:
 		file = open("vcf.json","w")
 		file.write(json.dumps({'username': 'bcm', \
-					'patientFolder': args.patientfolder, \
-					'filePath': args.vcfpath, \
-					'patient': {\
+					'vcf': {
+					'file_path': args.vcfpath, \
+					'alissa_file_name': args.filename, \
+					'file_type': 'VCF_FILE', \
+					'samples': [\
+					{ \
 					'accession': args.samplename, \
-					'gender': args.gender}\
-					}, \
+					'sample': args.sample}, \
+					]}}, \
 					indent=4))
 		file.close()
 
@@ -74,7 +83,6 @@ def submit(url=""):
 		pass
 	process.stdout.close()
 
-
 def main():
 	# Make json,
 	jsonfile()
@@ -83,6 +91,7 @@ def main():
 	# This will probably change when not dev?
 	if args.vcfpath:
 		# Starts alissa connector, bcm.sh.
+		log_file = open('alissa_upload.log','a')
 		cmd = ('/apps/bio/software/bench_connector/Gothenburg-1.0.1-SNAPSHOT-package/bcm.sh')
 		p = subprocess.Popen(cmd, \
                 	stdout=subprocess.PIPE, \
@@ -91,19 +100,23 @@ def main():
 		
 		time.sleep(15)
 
-		submit("https://127.0.0.1:8082/bcm/test/vcfFileUpload")
+		submit("https://127.0.0.1:8082/bcm/assayregistration/upload")
 
 		# Killing childprocess and grandchild process.
 		parent = psutil.Process(p.pid)
 		for child in parent.children(recursive=True):
 			child.terminate()
 
+		for line in p.stdout:
+		    log_file.write(line.decode('utf-8'))
+
 		parent.terminate()
 		p.stdout.close()
 		p.kill()
-
+		log_file.close()
 	else:
 		# Starts alissa connector, bcm.sh.
+		log_file = open('alissa_upload.log','a')
 		cmd = ('/apps/bio/software/bench_connector/Gothenburg-1.0.1-SNAPSHOT-package/bcm.sh')
 		p = subprocess.Popen(cmd, \
                 	stdout=subprocess.PIPE, \
@@ -112,17 +125,21 @@ def main():
 
 		time.sleep(15)
 
-		submit("https://127.0.0.1:8082/bcm/test/patientregistration")
+		submit("https://127.0.0.1:8082/bcm/assayregistration/create")
+
 
 		# Killing childprocess and grandchild process.
 		parent = psutil.Process(p.pid)
 		for child in parent.children(recursive=True):
 			child.terminate()
 
+		for line in p.stdout:
+		    log_file.write(line.decode('utf-8'))
+
 		parent.terminate()
 		p.stdout.close()
 		p.kill()
-
+		log_file.close()
 	
 
 if __name__ == "__main__":
