@@ -13,7 +13,7 @@ import psutil
 ##############################################
 
 parser = argparse.ArgumentParser(prog="vcf_to_fasta")
-parser.add_argument("-s","--samplename", \
+parser.add_argument("-a", "--accession", \
 #                        required=True, \
                         help="Sample name (accessionid)")
 parser.add_argument("-v", "--vcfpath", \
@@ -25,46 +25,47 @@ parser.add_argument("-p", "--patientfolder", \
 parser.add_argument("-g", "--gender", \
 #                        required=True, \
                         help="Gender, f/m")
-parser.add_argument("-fn", "--filename", \
+parser.add_argument("-f", "--filename", \
 #                        required=True, \
                         help="alissa file name, name of vcf file")
-parser.add_argument("-sa", "--sample", \
+parser.add_argument("-x", "--samplename", \
 #                        required=True, \
-                        help="alissa file name, name of vcf file")
+                        help="sample name, found in vcf")
 parser.add_argument("-c", "--comments", \
-                        help="comments")
+                        help="comments (doesn't work for the moment)")
 args = parser.parse_args()
 
 ##############################################
 
 # Creating json file for input to alissa connector. 
 def jsonfile():
-	if args.comments:
-		file = open("vcf.json","w")
-		file.write(json.dumps({'username': 'bcm', \
-					'patient_folder': args.patientfolder, \
-					'patient': {\
-					'accession': args.samplename, \
-					'sex': args.gender, \
-					},#'comments': args.comments}\
-					}, \
-					indent=4))
-		file.close()
-
-	else:
+	if args.vcfpath:
 		file = open("vcf.json","w")
 		file.write(json.dumps({'username': 'bcm', \
 					'vcf': {
 					'file_path': args.vcfpath, \
 					'alissa_file_name': args.filename, \
 					'file_type': 'VCF_FILE', \
-					'samples': [\
+					'samples': [ \
 					{ \
-					'accession': args.samplename, \
-					'sample': args.sample}, \
+					'accession': args.accession, \
+					'sample': args.samplename}, \
 					]}}, \
 					indent=4))
 		file.close()
+
+	else:
+		file = open("vcf.json","w")
+		file.write(json.dumps({'username': 'bcm', \
+					'patient_folder': args.patientfolder, \
+					'patient': { \
+					'accession': args.accession, \
+					'sex': args.gender, \
+					},#'comments': args.comments}\
+					}, \
+					indent=4))
+		file.close()
+
 
 # Submit using json file, customize url after
 # input to json file.
@@ -82,6 +83,7 @@ def submit(url=""):
 	while process.wait() is None:
 		pass
 	process.stdout.close()
+
 
 def main():
 	# Make json,
@@ -114,6 +116,7 @@ def main():
 		p.stdout.close()
 		p.kill()
 		log_file.close()
+
 	else:
 		# Starts alissa connector, bcm.sh.
 		log_file = open('alissa_upload.log','a')
@@ -126,7 +129,6 @@ def main():
 		time.sleep(15)
 
 		submit("https://127.0.0.1:8082/bcm/assayregistration/create")
-
 
 		# Killing childprocess and grandchild process.
 		parent = psutil.Process(p.pid)
