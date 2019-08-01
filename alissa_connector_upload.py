@@ -66,6 +66,7 @@ def jsonfile():
 # input to json file.
 def submit(url=""):
 	# Command for uploading.
+	log = open('alissa_upload_error.log','a')
 	cmd = ('curl \
 		-X POST \
 		-H  "Content-Type:application/json" \
@@ -77,8 +78,9 @@ def submit(url=""):
 				shell=True)
 	while process.wait() is None:
 		pass
+	for line in process.stdout:
+	    log.write(line.decode('utf-8'))
 	process.stdout.close()
-
 
 def main():
 	# Make json,
