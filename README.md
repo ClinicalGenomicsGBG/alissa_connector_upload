@@ -12,11 +12,11 @@ think this will change when not dev(?)
 
 ## Utility    
 
-`merge_vcf.py` is a script that merges two vcf files.   
+`merge_vcf.py` is a script that merges or concatenates two vcf files.   
 
 Output is a gzipped vcf file.   
 
-It uses [bcftools](https://samtools.github.io/bcftools/bcftools.html) `view`, `index` and `merge`.      
+It uses [bcftools](https://samtools.github.io/bcftools/bcftools.html) `view`, `index` and `merge` or `concat`.      
 
 **Usage**:  
 
