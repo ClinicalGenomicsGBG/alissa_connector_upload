@@ -16,6 +16,12 @@ parser.add_argument("-v1", "--vcf1", \
 parser.add_argument("-v2", "--vcf2", \
         required=True, \
         help="VCF 2 input, unzipped")
+parser.add_argument("-m", "--merge", \
+        action="store_true", \
+        help="Merge two VCF")
+parser.add_argument("-c", "--concat", \
+        action="store_true", \
+        help="Concat two VCF, allows overlaps")
 args = parser.parse_args()
 
 ###########################################
@@ -68,3 +74,14 @@ process_5 = subprocess.Popen(cmd_5, \
 while process_5.wait() is None:
     pass
 process_5.stdout.close()
+
+# Concat vcf files.
+cmd_6 = ['bcftools', 'concat', \
+	'--allow-overlaps', \
+        vcf_bg1, vcf_bg2, \
+        '-Oz', '-o', merged_vcf]   
+process_6 = subprocess.Popen(cmd_6, \
+            stdout=subprocess.PIPE)
+while process_6.wait() is None:
+    pass
+process_6.stdout.close()
