@@ -12,27 +12,22 @@ import psutil
 
 ##############################################
 
-parser = argparse.ArgumentParser(prog="vcf_to_fasta")
+parser = argparse.ArgumentParser(prog="alissa_connector_upload")
 parser.add_argument("-a", "--accession", \
-#                        required=True, \
-                        help="Sample name (accessionid)")
+                        required=True, \
+                        help="Sample name (accession-id, required for both patient registration and vcf upload)")
 parser.add_argument("-v", "--vcfpath", \
-#                        required=True, \
                         help="Full path to vcf file")
 parser.add_argument("-p", "--patientfolder", \
-#                        required=True, \
-                        help="Name of patient folder")
+                        help="Name of patient folder (required for patient registration)")
 parser.add_argument("-g", "--gender", \
-#                        required=True, \
-                        help="Gender, f/m")
+                        help="Gender, f/m (required for patient registration)")
 parser.add_argument("-f", "--filename", \
-#                        required=True, \
-                        help="alissa file name, name of vcf file")
+                        help="alissa file name, name of vcf file (required for vcf upload)")
 parser.add_argument("-x", "--samplename", \
-#                        required=True, \
-                        help="sample name, found in vcf")
-parser.add_argument("-c", "--comments", \
-                        help="comments (doesn't work for the moment)")
+                        help="sample name, found in vcf (required for vcf upload)")
+#parser.add_argument("-c", "--comments", \
+ #                       help="comments (doesn't work for the moment)")
 args = parser.parse_args()
 
 ##############################################
