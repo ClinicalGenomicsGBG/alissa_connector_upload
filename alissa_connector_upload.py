@@ -78,9 +78,14 @@ def submit(url=""):
 				shell=True)
 	while process.wait() is None:
 		pass
+
 	for line in process.stdout:
 	    log.write(line.decode('utf-8'))
+	    print((line.decode('utf-8')))
+
 	process.stdout.close()
+	log.close()
+
 
 def main():
 	# Make json,
