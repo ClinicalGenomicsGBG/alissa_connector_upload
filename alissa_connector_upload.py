@@ -21,7 +21,7 @@ parser.add_argument("-v", "--vcfpath", \
 parser.add_argument("-p", "--patientfolder", \
                         help="Name of patient folder (required for patient registration)")
 parser.add_argument("-g", "--gender", \
-                        help="Gender, f/m (required for patient registration)")
+                        help="Gender, female/male (required for patient registration)")
 parser.add_argument("-f", "--filename", \
                         help="alissa file name, name of vcf file (required for vcf upload)")
 parser.add_argument("-x", "--samplename", \
