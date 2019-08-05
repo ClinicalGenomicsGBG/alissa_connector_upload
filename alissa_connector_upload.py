@@ -30,6 +30,12 @@ parser.add_argument("-x", "--samplename", \
  #                       help="comments (doesn't work for the moment)")
 args = parser.parse_args()
 
+patientfolder = ""
+if args.patientfolder == "KK":
+	patientfolder = "Klinisk kemi"
+if args.patientfolder == "KG":
+	patientfolder = "Klinisk Genetik"
+
 ##############################################
 
 # Creating json file for input to alissa connector. 
@@ -52,7 +58,7 @@ def jsonfile():
 	else:
 		file = open("vcf.json","w")
 		file.write(json.dumps({'username': 'bcm', \
-					'patient_folder': args.patientfolder, \
+					'patient_folder': patientfolder, \
 					'patient': { \
 					'accession': args.accession, \
 					'sex': args.gender, \
