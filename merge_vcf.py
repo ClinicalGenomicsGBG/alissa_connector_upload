@@ -22,6 +22,8 @@ parser.add_argument("-m", "--merge", \
 parser.add_argument("-c", "--concat", \
         action="store_true", \
         help="Concat two VCF, allows overlaps")
+parser.add_argument("-o", "--output", \
+        help="Output name")
 args = parser.parse_args()
 
 ###########################################
@@ -30,8 +32,15 @@ vcf1 = args.vcf1
 vcf2 = args.vcf2
 vcf_bg1 = os.path.basename(vcf1) + ".bgz"
 vcf_bg2 = os.path.basename(vcf2) + ".bgz"
-merged_vcf = 'merged_' + os.path.basename(vcf1) + '_' + os.path.basename(vcf2) + '.gz'
-concat_vcf = 'concat_' + os.path.basename(vcf1) + '_' + os.path.basename(vcf2) + '.gz'
+
+output = ""
+if args.output:
+    output = args.output
+else:
+	if args.concat:
+	    output = 'concat_' + os.path.basename(vcf1) + '_' + os.path.basename(vcf2) + '.gz'
+	if args.merge:
+	    output = 'merged_' + os.path.basename(vcf1) + '_' + os.path.basename(vcf2) + '.gz'
 
 ###########################################
 
@@ -68,9 +77,9 @@ process_4.stdout.close()
 # Merge vcf files.
 if args.merge:
 	cmd_5 = ['bcftools', 'merge', \
-		'--force-samples', \
-		vcf_bg1, vcf_bg2, \
-		'-Oz', '-o', merged_vcf]   
+        	'--force-samples', \
+		    vcf_bg1, vcf_bg2, \
+		    '-Oz', '-o', output]   
 	process_5 = subprocess.Popen(cmd_5, \
 		    stdout=subprocess.PIPE)
 	while process_5.wait() is None:
@@ -80,9 +89,9 @@ if args.merge:
 # Concat vcf files.
 if args.concat:
 	cmd_6 = ['bcftools', 'concat', \
-		'--allow-overlaps', \
-		vcf_bg1, vcf_bg2, \
-		'-Oz', '-o', concat_vcf]   
+		    '--allow-overlaps', \
+		    vcf_bg1, vcf_bg2, \
+		    '-Oz', '-o', output]   
 	process_6 = subprocess.Popen(cmd_6, \
 		    stdout=subprocess.PIPE)
 	while process_6.wait() is None:
