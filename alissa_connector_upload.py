@@ -108,7 +108,7 @@ def main():
 					shell=True, \
 					cwd="/apps/bio/software/bench_connector/Gothenburg-1.0.1-SNAPSHOT-package/")
 		
-		time.sleep(30)
+		time.sleep(60)
 
 		submit("https://127.0.0.1:8082/bcm/assayregistration/upload")
 
@@ -134,7 +134,7 @@ def main():
 					shell=True, \
 					cwd="/apps/bio/software/bench_connector/Gothenburg-1.0.1-SNAPSHOT-package/")
 
-		time.sleep(30)
+		time.sleep(60)
 
 		submit("https://127.0.0.1:8082/bcm/assayregistration/create")
 
