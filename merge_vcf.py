@@ -97,3 +97,9 @@ if args.concat:
 	while process_6.wait() is None:
 	    pass
 	process_6.stdout.close()
+
+# Remove the intermediate files, bgzip and index.
+os.remove(vcf_bg1)
+os.remove(vcf_bg2)
+os.remove(vcf_bg1+'.csi')
+os.remove(vcf_bg2+'.csi')
