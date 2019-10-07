@@ -54,7 +54,7 @@ else:
 # Creating json file for input to alissa connector. 
 def jsonfile():
 	if args.vcfpath:
-		json_name = args.filename+".json"
+		json_name = f"{outputdir}/{args.filename}.json"
 		file = open(json_name,"w")
 		file.write(json.dumps({'username': 'bcm', \
 					'vcf': {
@@ -71,7 +71,7 @@ def jsonfile():
 		return json_name
 	else:
 		#json_name = args.filename+".json"
-		json_name = args.accession+".json"
+		json_name = f"{outputdir}/{args.accession}.json"
 		file = open(json_name,"w")
 		file.write(json.dumps({'username': 'bcm', \
 					'patient_folder': patientfolder, \
