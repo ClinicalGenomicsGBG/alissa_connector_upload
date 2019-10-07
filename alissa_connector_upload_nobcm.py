@@ -89,7 +89,7 @@ def jsonfile():
 def submit(url, json_name):
 	# Command for uploading.
 	accession = args.accession
-	log = open(f'{outputdir}/alissa_upload_stderror_{accession}.log','w')
+	log = open(f'{outputdir}/alissa_upload_stderror_{accession}.log','a')
 	cmd = ('curl \
 		-X POST \
 		-H  "Content-Type:application/json" \
