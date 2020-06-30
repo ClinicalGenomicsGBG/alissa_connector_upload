@@ -86,8 +86,8 @@ def submit(url=""):
 		pass
 
 	for line in process.stdout:
-	    log.write(line.decode('utf-8'))
-	    print((line.decode('utf-8')))
+		log.write(line.decode('utf-8'))
+		print((line.decode('utf-8')))
 
 	process.stdout.close()
 	log.close()
@@ -118,7 +118,7 @@ def main():
 			child.terminate()
 
 		for line in p.stdout:
-		    log_file.write(line.decode('utf-8'))
+			log_file.write(line.decode('utf-8'))
 
 		parent.terminate()
 		p.stdout.close()
@@ -144,7 +144,7 @@ def main():
 			child.terminate()
 
 		for line in p.stdout:
-		    log_file.write(line.decode('utf-8'))
+			log_file.write(line.decode('utf-8'))
 
 		parent.terminate()
 		p.stdout.close()
